@@ -10,35 +10,35 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
    
-   #skonfigurowanie dockera + buildx
-    - name: Buildx set-up
-      id: buildx
-      uses: docker/setup-buildx-action@v2
+      #skonfigurowanie dockera + buildx
+      - name: Buildx set-up
+        id: buildx
+        uses: docker/setup-buildx-action@v2
 
-    # Instalacja QEMU
-    - name: Docker Setup QEMU
-      uses: docker/setup-qemu-action
+      # Instalacja QEMU
+      - name: Docker Setup QEMU
+        uses: docker/setup-qemu-action
 
-    #logowanie do Dockerhub
-    - name: Login to Dockerhub
-      uses: docker/login-action@v2
-      with:
-        username: ${{secrets.DOCKER_HUB_USERNAME}}
-        password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
+      #logowanie do Dockerhub
+      - name: Login to Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKER_HUB_USERNAME}}
+          password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
 
-    #zbudowanie i wypchniecie obrazu na DockerHub
-    - name: Build Docker image
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        file: Dockerfile
-        push: true
-        platforms: linux/amd64, linux/arm64
-        tags: fib_calc
-    - name: 
-    - name: Push image to GitHub Packages
-      uses: docker
+      #zbudowanie i wypchniecie obrazu na DockerHub
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          platforms: linux/amd64, linux/arm64
+          tags: fib_calc
+      - name: 
+      - name: Push image to GitHub Packages
+        uses: docker
         
