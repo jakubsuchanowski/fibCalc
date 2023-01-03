@@ -22,7 +22,13 @@ jobs:
       # Instalacja QEMU
       - name: Docker Setup QEMU
         uses: docker/setup-qemu-action@v2
-
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
       #logowanie do Dockerhub
       - name: Login to Dockerhub
         uses: docker/login-action@v2
@@ -40,4 +46,4 @@ jobs:
           push: true
           platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
-        
+          labels: ${{ steps.meta.outputs.labels }}
