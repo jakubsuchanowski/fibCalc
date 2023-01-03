@@ -32,6 +32,7 @@ jobs:
 
       #zbudowanie i wypchniecie obrazu na DockerHub
       - name: Build Docker image
+        id: docker_build
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -39,7 +40,9 @@ jobs:
           push: true
           platforms: linux/amd64, linux/arm64
           tags: fib_calc
-      - name: 
-      - name: Push image to GitHub Packages
-        uses: docker
+        #Przenies cache'a
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
         
