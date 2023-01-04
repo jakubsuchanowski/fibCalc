@@ -7,3 +7,4 @@ RUN g++ -o /app/main /app/main.cpp
 WORKDIR /app
 
 CMD ["./main"]
+
