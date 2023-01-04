@@ -12,7 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/jakubsuchanowski/fibCalc
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
       #skonfigurowanie dockera + buildx
       - name: Buildx set-up
         uses: docker/setup-buildx-action@v2
@@ -36,17 +48,6 @@ jobs:
           username: ${{secrets.DOCKER_HUB_USERNAME}}
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
 
-       - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ghcr.io/jakubsuchanowski/fibCalc
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
       #zbudowanie i wypchniecie obrazu na DockerHub
       - name: Build Docker image
         id: docker_build
